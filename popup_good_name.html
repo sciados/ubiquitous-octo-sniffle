@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="x-ua-compatible" content="IE=edge, chrome=1" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta http-equiv="cache-control" content="max-age=0, no-cache" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="msapplication-tap-highlight" content="no" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<script type="text/javascript">
+///////////////
+(function() {
+  var lang = "as_browser";
+  var serverhtml5 = "127.0.0.1";
+  var porthtml5 = "3389";
+  var cmdline = "";
+  var user = "demo";
+  var pass = "demo";
+  var domain = "";
+
+  var openinsamewindow = false;
+  var url_link = "https://app.simplymeet.me/appsmartdesk/review?is_widget=1&view=compact";
+  ///////////////
+
+  var jsb64array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+  function jsencode64(input) {
+    var base64 = "";
+    var hex = "";
+    var chr1, chr2, chr3 = "";
+    var enc1, enc2, enc3, enc4 = "";
+    var i = 0;
+    do {
+        chr1 = input.charCodeAt(i++);
+        chr2 = input.charCodeAt(i++);
+        chr3 = input.charCodeAt(i++);
+        enc1 = chr1 >> 2;
+        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+        enc4 = chr3 & 63;
+        if(isNaN(chr2)) {
+            enc3 = enc4 = 64;
+        } else if(isNaN(chr3)) {
+            enc4 = 64;
+        }
+        base64 = base64  +
+            jsb64array.charAt(enc1) +
+            jsb64array.charAt(enc2) +
+            jsb64array.charAt(enc3) +
+            jsb64array.charAt(enc4);
+        chr1 = chr2 = chr3 = "";
+        enc1 = enc2 = enc3 = enc4 = "";
+    } while(i < input.length);
+    return base64;
+  };
+
+  function forHTML5() {
+    return jsencode64(escape('var randomnum = ' + (Math.floor(Math.random() * 1000)) + ';window.cmdline=\'' + cmdline + '\';window.user=\'' + user + '\';window.pass=\'' + pass + '\';window.server=\'' + serverhtml5 + '\';window.port=\'' + porthtml5 + '\';window.webport=\'' + porthtml5 + '\';window.lang=\'' + lang + '\';window.domain=\'' + domain + '\';')).replace(/=/g, '_');
+  };
+
+   window.startHTML5 = function() {
+        var p = url_link;
+        var k = forHTML5();
+        user = pass = ""; //delete data
+
+        var userAgent = window.navigator && window.navigator.userAgent ? window.navigator.userAgent : "";
+
+        (function() {
+                    var wl = false;
+                    if(!openinsamewindow && window.open) {
+                      try {
+                        wl = window.open("about:blank", userAgent.match(" CriOS") ? "_blank" : k);
+                        wl.name = k;
+                      } catch(ex) { }
+                    }
+                    if(!wl) {
+                      wl = window;
+                      wl.name = k;
+                      try { wl.document.close(); } catch(ex) { }
+                    }
+                    try {
+                      var doc = wl.document;
+                      doc.open();
+                      var tosend = "<!DOCTYPE html><html><head><meta http-equiv=\"refresh\" content=\"0; URL=" + p + "\">";
+                      tosend += "<scr"+"ipt type=\"text/javascript\">\r\n";
+                      tosend += "var Lk = \"" + k + "\";\r\n";
+                      tosend += "var rP = \"" + p + "\";\r\n";
+                      tosend += "var W = window, sT = false; W.name = Lk;\r\n";
+                      tosend += "W.onunload = function() { if(sT) { W.clearTimeout(sT); sT = false; } try { W.name = Lk; } catch(ex3) { } };\r\n";
+                      tosend += "W.doOnload = function() {\r\n";
+                      tosend += "  var kW = W.document.body;\r\n";
+                      tosend += "  if(!kW) { kW = W.document.getElementsByTagName(\"body\")[0]; }\r\n";
+                      tosend += "  kW.innerHTML = \"<a href='\" + rP + \"' id='myLink' target='\" + Lk + \"'></a>\";\r\n";
+                      tosend += "  sT = W.setTimeout(function() { sT = false; var uM = false; try { uM = W.open(rP, Lk); uM.name = Lk; } catch(ex2) { if(!uM) { if(W.location.replace) { W.location.replace(rP); } else { W.location.href = rP; } } } try { W.name = Lk; } catch(ex3) { } }, 2000);\r\n";
+                      tosend += "  try { var x = W.document.getElementById(\"myLink\"); x.focus(); x.click(); } catch(ex) { }\r\n";
+                      tosend += "  try { W.name = Lk; } catch(ex3) { }\r\n";
+                      tosend += "}\r\n</scr"+"ipt></head><body onload=\"window.doOnload();\"></body></html>";
+                      doc.write(tosend);
+                      doc.close();
+                    } catch(ex) { }
+        })();
+   };
+})();
+</script>
+</head>
+<body width="1000px" height="750px" marginheight="0" marginwidth="0" spacing="0" style="width:100%;height:100%;position:absolute;top:0px;left:0px;overflow:hidden;">
+ <input type="button" value="window.name" onclick="window.startHTML5();"></p>
+</body>
+</html>
